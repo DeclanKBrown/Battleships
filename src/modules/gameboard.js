@@ -20,19 +20,20 @@ const GameBoard = () => {
         }
     }
 
+    const receiveAttack = (x, y, ship) => {
+        board[x][y].isShot = true
+        board[x][y].hasShip === true ? ship.hit() : undefined
+    }
+    
+    const reportSunk = () => {
+        
+    }
+
     const getBoard = () => {
         return board;
     }
 
-    const receiveAttack = () => {
-
-    }
-
-    const reportSunk = () => {
-
-    }
-
-    return { placeShip, getBoard }
+    return { placeShip, receiveAttack, getBoard }
 }
 
 export default GameBoard
