@@ -26,14 +26,20 @@ const GameBoard = () => {
     }
     
     const reportSunk = () => {
-        
+        for (let i = 0; i < 10; ++i) {
+            for (let j = 0; j < 10; ++j) {
+                if (board[i][j].isShot === false && board[i][j].hasShip === true)
+                 return false
+            }
+        }
+        return true
     }
 
     const getBoard = () => {
         return board;
     }
 
-    return { placeShip, receiveAttack, getBoard }
+    return { placeShip, receiveAttack, reportSunk, getBoard }
 }
 
 export default GameBoard
