@@ -7,7 +7,7 @@ const Ship = (len) => {
 
     const isSunk = () => numHits === length ? sunk = true : sunk = false
 
-    return { hit, isSunk }
+    return { length, hit, isSunk }
 
 }
 
