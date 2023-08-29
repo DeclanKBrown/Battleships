@@ -1,9 +1,11 @@
+import game from "./game"
+
 const UI = (() => {
 
     const loadHome = () => {
         loadMain()
         loadGrid()
-        intiGrid()
+        initGrid()
     }
 
     const loadMain = () => {
@@ -73,10 +75,37 @@ const UI = (() => {
     }
 
     const initGrid = () => {
-        
+        for (let i = 0; i < 10; ++i) {
+            for (let j = 0; j < 10; ++j) {
+                let gridCell = document.querySelector(`#R-${i}-${j}`)
+
+                let x = gridCell.id.split('-')[1]
+                let y = gridCell.id.split('-')[2]
+
+                gridCell.addEventListener('click', () => {
+                    game.attack(x, y, game.computer.board)
+                    gridCell.classList.add('isShot')
+                })
+            }
+        }
     }
 
-    return { loadHome }
+    const placeShip = (x, y, direction, ship, player) => {
+        if (direction === 'x') {
+            for (let i = x; i < x + ship.length; ++i) {
+                let gridCell = document.querySelector(`#${player}-${i}-${y}`)
+                gridCell.classList.add('hasShip')
+            }
+        } else {
+            for (let i = y; i < y + ship.length; ++i) {
+                let gridCell = document.querySelector(`#${player}-${x}-${i}`)
+                gridCell.classList.add('hasShip')
+            }
+        }
+    } 
+
+
+    return { loadHome, placeShip }
 })()
 
 export default UI
