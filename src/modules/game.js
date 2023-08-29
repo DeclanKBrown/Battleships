@@ -11,11 +11,20 @@ const game = (() => {
         computerShips()
     }
 
-    const attack = (x, y, oppenentBoard) => {
-        player1.attack(x, y, oppenentBoard)
-        if (player1.board.reportSunk() || computer.board.reportSunk()) {
-            console.log('fuck')
+    const flow = (P1played) => {
+        if (!gameEnded()) {
+            if (P1played) {
+                computer.randomAttack(player1.board)
+                UI.colorGrid()
+            }
         }
+    }
+
+    const gameEnded = () => {
+        if (player1.board.reportSunk() || computer.board.reportSunk()) {
+            return true
+        }
+        return false
     }
 
     const player1Ships = () => {
@@ -52,7 +61,7 @@ const game = (() => {
         UI.placeShip(8, 2, 'x', Ship(2, 'destroyer'), 'R')
     }
 
-    return { player1, computer, newGame, attack }
+    return { player1, computer, newGame, flow }
     
 })()
 

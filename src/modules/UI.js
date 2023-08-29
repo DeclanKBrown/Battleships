@@ -83,9 +83,25 @@ const UI = (() => {
                 let y = gridCell.id.split('-')[2]
 
                 gridCell.addEventListener('click', () => {
-                    game.attack(x, y, game.computer.board)
-                    gridCell.classList.add('isShot')
+                    game.player1.attack(x, y, game.computer.board)
+                    colorGrid()
+                    game.flow(true)
                 })
+            }
+        }
+    }
+
+    const colorGrid = () => {
+        for (let i = 0; i < 10; ++i) {
+            for (let j = 0; j < 10; ++j) {
+                if (game.computer.board.getBoard()[i][j].isShot) {
+                    let gridCell = document.querySelector(`#R-${i}-${j}`)
+                    gridCell.classList.add('isShot')
+                }
+                if (game.player1.board.getBoard()[i][j].isShot) {
+                    let gridCell = document.querySelector(`#L-${i}-${j}`)
+                    gridCell.classList.add('isShot')
+                }
             }
         }
     }
@@ -105,7 +121,7 @@ const UI = (() => {
     } 
 
 
-    return { loadHome, placeShip }
+    return { loadHome, placeShip, colorGrid }
 })()
 
 export default UI
