@@ -7,16 +7,25 @@ const Player = () => {
         opponentBoard.receiveAttack(x, y)
     }
 
+    const isLegal = (opponentBoard, x, y) => {
+        if (opponentBoard.getBoard()[x][y].isShot === false) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
     const randomAttack = (opponentBoard) => {
         let x = Math.floor(Math.random() * 10)
         let y = Math.floor(Math.random() * 10)
 
-        while (opponentBoard.getBoard()[x][y].isShot === false) {
-            let x = Math.floor(Math.random() * 10)
-            let y = Math.floor(Math.random() * 10)
-            opponentBoard.receiveAttack(x, y)
-            return
+        while (!isLegal(opponentBoard, x, y)) {
+            x = Math.floor(Math.random() * 10)
+            y = Math.floor(Math.random() * 10)
         }
+
+        opponentBoard.receiveAttack(x, y)
     }
 
     return { board, attack, randomAttack }
