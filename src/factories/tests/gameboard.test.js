@@ -1,5 +1,5 @@
-import Gameboard from '../modules/gameboard'
-import Ship from '../modules/ship'
+import Gameboard from '../gameboard'
+import Ship from '../ship'
 
 
 test('place ship function', () => {

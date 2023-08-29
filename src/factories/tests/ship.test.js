@@ -1,4 +1,4 @@
-import Ship from '../modules/ship'
+import Ship from '../ship'
 
 
 test ('Ship length return correct', () => {
