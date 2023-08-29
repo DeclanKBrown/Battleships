@@ -1,5 +1,6 @@
-const Ship = (len) => {
+const Ship = (len, nam) => {
     let length = len
+    let name = nam;
     let numHits = 0
     let sunk = false
 
@@ -7,7 +8,7 @@ const Ship = (len) => {
 
     const isSunk = () => numHits === length ? sunk = true : sunk = false
 
-    return { length, hit, isSunk }
+    return { length, name, hit, isSunk }
 
 }
 

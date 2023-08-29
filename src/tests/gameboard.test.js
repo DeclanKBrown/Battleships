@@ -14,10 +14,10 @@ test('place ship function', () => {
 
     //Add hasShip to comp board
     for (let i = 1; i < 1 + 5; ++i) {
-        comp[i][1].hasShip = true
+        comp[i][1].hasShip = 'carrier'
     }
 
-    const carrier = Ship(5)                     //Create carrier
+    const carrier = Ship(5, 'carrier')           //Create carrier
     const board = Gameboard()                   //Create board
     board.placeShip(1,1, 'x', carrier)          //Place ship on board
 
@@ -36,20 +36,20 @@ test ('Receive attack function', () => {
 
     //Add hasShip to comp board and simulate ship is sunk
     for (let i = 1; i < 1 + 5; ++i) {
-        comp[i][1].hasShip = true
+        comp[i][1].hasShip = 'carrier'
         comp[i][1].isShot = true
     }
 
-    const carrier = Ship(5)                     //Create carrier
+    const carrier = Ship(5, 'carrier')          //Create carrier
     const board = Gameboard()                   //Create board
     board.placeShip(1,1, 'x', carrier)          //Place ship on board
 
     // simulate carrier is sunk
-    board.receiveAttack(1, 1, carrier) 
-    board.receiveAttack(2, 1, carrier) 
-    board.receiveAttack(3, 1, carrier) 
-    board.receiveAttack(4, 1, carrier) 
-    board.receiveAttack(5, 1, carrier) 
+    board.receiveAttack(1, 1) 
+    board.receiveAttack(2, 1) 
+    board.receiveAttack(3, 1) 
+    board.receiveAttack(4, 1) 
+    board.receiveAttack(5, 1) 
 
     expect(board.getBoard()).toEqual(comp)
     expect(carrier.isSunk()).toEqual(true)
@@ -67,20 +67,20 @@ test ('report sunk function', () => {
 
     //Add hasShip to comp board and simulate ship is sunk
     for (let i = 1; i < 1 + 5; ++i) {
-        comp[i][1].hasShip = true
+        comp[i][1].hasShip = 'carrier'
         comp[i][1].isShot = true
     }
 
-    const carrier = Ship(5)                     //Create carrier
+    const carrier = Ship(5, 'carrier')           //Create carrier
     const board = Gameboard()                   //Create board
     board.placeShip(1,1, 'x', carrier)          //Place ship on board
 
     // simulate carrier is sunk
-    board.receiveAttack(1, 1, carrier) 
-    board.receiveAttack(2, 1, carrier) 
-    board.receiveAttack(3, 1, carrier) 
-    board.receiveAttack(4, 1, carrier) 
-    board.receiveAttack(5, 1, carrier) 
+    board.receiveAttack(1, 1) 
+    board.receiveAttack(2, 1) 
+    board.receiveAttack(3, 1) 
+    board.receiveAttack(4, 1) 
+    board.receiveAttack(5, 1) 
 
     expect(board.reportSunk()).toEqual(true)
 })
