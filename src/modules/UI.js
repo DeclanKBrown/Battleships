@@ -11,6 +11,8 @@ const UI = (() => {
         removeContent()
         shipScreen()
         loadMainGrid()
+        initMainGrid()
+        orders('player1 place carrier')
     }
 
     const loadMain = () => {
@@ -18,6 +20,7 @@ const UI = (() => {
         mainScreen()
         loadGrid()
         initGrid()
+        showShips()
         game.newGame()
     }
 
@@ -104,6 +107,21 @@ const UI = (() => {
         }
     }
 
+    const initMainGrid = () => {
+        for (let i = 0; i < 10; ++i) {
+            for (let j = 0; j < 10; ++j) {
+                let gridCell = document.querySelector(`#L-${i}-${j}`)
+
+                let x = parseInt(gridCell.id.split('-')[1])
+                let y = parseInt(gridCell.id.split('-')[2])
+
+                gridCell.addEventListener('click', () => {
+                    p1PlaceShip(x, y)
+                })
+            }
+        }
+    }
+
     const mainScreen = () => {
         const body = document.body
 
@@ -116,7 +134,7 @@ const UI = (() => {
         </header>
         <div class="message">
             <div class="message-inner">
-                <h1 class="orders">Orders: Place Ship</h1>
+                <h1 class="orders">Orders: Fire Away</h1>
             </div>
         </div>
         <div class="main-inner">
@@ -193,6 +211,17 @@ const UI = (() => {
         }
     }
 
+    const showShips = () => {
+        for (let i = 0; i < 10; ++i) {
+            for (let j = 0; j < 10; ++j) {
+                if (game.player1.board.getBoard()[i][j].hasShip) {
+                    let gridCell = document.querySelector(`#L-${i}-${j}`)
+                    gridCell.classList.add('hasShip')
+                }
+            }
+        }
+    }
+
     const colorGrid = () => {
         for (let i = 0; i < 10; ++i) {
             for (let j = 0; j < 10; ++j) {
@@ -243,8 +272,10 @@ const UI = (() => {
             document.querySelector('.orders').innerHTML = 'Place Cruiser'
         } else if (order === 'player1 place submarine') {
             document.querySelector('.orders').innerHTML = 'Place Submarine'
-        } else if (order === 'player1 place destoyer') {
+        } else if (order === 'player1 place destroyer') {
             document.querySelector('.orders').innerHTML = 'Place Destroyer'
+        } else if (order === 'ships placed') {
+            document.querySelector('.orders').innerHTML = 'Ships Placed'
         } else if (order === 'player1 win') {
             document.querySelector('.orders').innerHTML = 'You Win'
         } else if (order === 'computer wins') {
@@ -255,8 +286,21 @@ const UI = (() => {
         await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
+    const p1PlaceShip = (x, y) => {
+        if (!game.isCarrierPlaced()) {
+            game.placeCarrier(x, y)
+        } else if (!game.isBattleshipPlaced()) {
+            game.placeBattleship(x, y)
+        } else if (!game.isCruiserPlaced()) {
+            game.placeCruiser(x, y)
+        } else if (!game.isSubmarinePlaced()) {
+            game.placeSubmarine(x, y)
+        } else if (!game.isDestroyerPlaced()) {
+            game.placeDestroyer(x, y)
+        }
+    }
 
-    return { loadHome, placeShip, colorGrid, orders }
+    return { loadHome, placeShip, colorGrid, orders, loadMain }
 })()
 
 export default UI
