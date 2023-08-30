@@ -22,7 +22,7 @@ const Player = () => {
 
     }
 
-    const randomAttack = (opponentBoard) => {
+    const randomAttack = async (opponentBoard) => {
         let x = Math.floor(Math.random() * 10)
         let y = Math.floor(Math.random() * 10)
 
@@ -32,10 +32,11 @@ const Player = () => {
         }
 
         opponentBoard.receiveAttack(x, y)
+        UI.colorGrid()
         if (opponentBoard.getBoard()[x][y].hasShip) {
-            UI.orders('computer hit')
+            await UI.orders('computer hit')
         } else {
-            UI.orders('computer misses')
+            await UI.orders('computer misses')
         }
     }
 

@@ -21,8 +21,7 @@ const game = (() => {
             if (P1played) {
                 waiting = true
                 await UI.orders('compAttacking');
-                computer.randomAttack(player1.board);
-                UI.colorGrid();
+                await computer.randomAttack(player1.board);
                 UI.orders('player1 turn');
                 waiting = false
             }
