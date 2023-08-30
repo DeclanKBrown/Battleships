@@ -20,7 +20,7 @@ const UI = (() => {
         </header>
         <div class="message">
             <div class="message-inner">
-                <h1>Orders: Place Ship</h1>
+                <h1 class="orders">Orders: Place Ship</h1>
             </div>
         </div>
         <div class="main-inner">
@@ -83,9 +83,11 @@ const UI = (() => {
                 let y = gridCell.id.split('-')[2]
 
                 gridCell.addEventListener('click', () => {
-                    game.player1.attack(x, y, game.computer.board)
-                    colorGrid()
-                    game.flow(true)
+                    if (!game.gameEnded()) {
+                        game.player1.attack(x, y, game.computer.board)
+                        colorGrid()
+                        game.flow(true)
+                    }
                 })
             }
         }
@@ -120,8 +122,38 @@ const UI = (() => {
         }
     } 
 
+    const orders = (order) => {
+        if (order === 'compAttacking') {
+            document.querySelector('.orders').innerHTML = 'Enemy Attacking'
+        } else if (order === 'computer hit') {
+            document.querySelector('.orders').innerHTML = 'Enemy Hits'
+        } else if (order === 'computer misses') {
+            document.querySelector('.orders').innerHTML = 'Enemy Misses'
+        } else if (order === 'player1 turn') {
+            document.querySelector('.orders').innerHTML = 'Your Turn'
+        } else if (order === 'player1 hit') {
+            document.querySelector('.orders').innerHTML = 'You Hit'
+        } else if (order === 'player1 misses') {
+            document.querySelector('.orders').innerHTML = 'You Missed'
+        } else if (order === 'player1 place carrier') {
+            document.querySelector('.orders').innerHTML = 'Place Carrier'
+        } else if (order === 'player1 place battleship') {
+            document.querySelector('.orders').innerHTML = 'Place Battleship'
+        } else if (order === 'player1 place cruiser') {
+            document.querySelector('.orders').innerHTML = 'Place Cruiser'
+        } else if (order === 'player1 place submarine') {
+            document.querySelector('.orders').innerHTML = 'Place Submarine'
+        } else if (order === 'player1 place destoyer') {
+            document.querySelector('.orders').innerHTML = 'Place Destroyer'
+        } else if (order === 'player1 win') {
+            document.querySelector('.orders').innerHTML = 'You Win'
+        } else if (order === 'computer win') {
+            document.querySelector('.orders').innerHTML = 'Computer Wins'
+        }
+    }
 
-    return { loadHome, placeShip, colorGrid }
+
+    return { loadHome, placeShip, colorGrid, orders }
 })()
 
 export default UI

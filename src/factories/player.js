@@ -1,10 +1,16 @@
 import Gameboard from './gameboard'
+import UI from '../modules/UI'
 
 const Player = () => {
     const board = Gameboard()
 
     const attack = (x, y, opponentBoard) => {
         opponentBoard.receiveAttack(x, y)
+        if (opponentBoard.getBoard()[x][y].hasShip) {
+            UI.orders('player1 hit')
+        } else {
+            UI.orders('player1 missed')
+        }
     }
 
     const isLegal = (opponentBoard, x, y) => {
@@ -26,6 +32,11 @@ const Player = () => {
         }
 
         opponentBoard.receiveAttack(x, y)
+        if (opponentBoard.getBoard()[x][y].hasShip) {
+            UI.orders('computer hit')
+        } else {
+            UI.orders('computer misses')
+        }
     }
 
     return { board, attack, randomAttack }
