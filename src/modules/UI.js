@@ -84,9 +84,13 @@ const UI = (() => {
 
                 gridCell.addEventListener('click', () => {
                     if (!game.gameEnded()) {
-                        game.player1.attack(x, y, game.computer.board)
-                        colorGrid()
-                        game.flow(true)
+                        if (game.player1.isLegal(game.computer.board, x, y)) {
+                            game.player1.attack(x, y, game.computer.board)
+                            colorGrid()
+                            game.flow(true)
+                        } else {
+                            orders('player1 already shot')
+                        }
                     }
                 })
             }
@@ -147,8 +151,10 @@ const UI = (() => {
             document.querySelector('.orders').innerHTML = 'Place Destroyer'
         } else if (order === 'player1 win') {
             document.querySelector('.orders').innerHTML = 'You Win'
-        } else if (order === 'computer win') {
+        } else if (order === 'computer wins') {
             document.querySelector('.orders').innerHTML = 'Computer Wins'
+        } else if (order === 'player1 already shot') {
+            document.querySelector('.orders').innerHTML = 'Already Attacked Postion'
         }
     }
 

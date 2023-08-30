@@ -39,7 +39,7 @@ const Player = () => {
         }
     }
 
-    return { board, attack, randomAttack }
+    return { board, attack, randomAttack, isLegal }
 } 
 
 export default Player
