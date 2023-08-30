@@ -5,5 +5,4 @@ import game from './modules/game'
 
 document.addEventListener('DOMContentLoaded', () => {
     UI.loadHome()
-    game.newGame()
 })

@@ -5,21 +5,31 @@ import UI from './UI'
 const game = (() => {
     const player1 = Player()
     const computer = Player()
+    let waiting = false;
     
     const newGame = () => {
         player1Ships()
         computerShips()
     }
 
-    const flow = (P1played) => {
+    const flow = async (P1played) => {
         if (!gameEnded()) {
             if (P1played) {
-                UI.orders('compAttacking')
-                computer.randomAttack(player1.board)
-                UI.colorGrid()
-                UI.orders('player1 turn')
+                waiting = true
+                await UI.orders('compAttacking');
+                computer.randomAttack(player1.board);
+                UI.colorGrid();
+                await UI.orders('player1 turn');
+                waiting = false
             }
         }
+    }
+
+    const canPlay = () => {
+        if (waiting) {
+            return false
+        } 
+        return true
     }
 
     const gameEnded = () => {
@@ -75,8 +85,7 @@ const game = (() => {
         UI.placeShip(8, 2, 'x', Ship(2, 'destroyer'), 'R')
     }
 
-    return { player1, computer, newGame, flow, gameEnded }
-    
+    return { player1, computer, newGame, flow, gameEnded, canPlay }
 })()
 
 export default game
