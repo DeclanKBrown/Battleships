@@ -154,9 +154,14 @@ const UI = (() => {
                 let gridCell = document.querySelector(`#L-${x}-${y}`)
                 gridCell.classList.add('err')
             } else {
-                for (let i = x; i < x + shipLength; ++i) {
-                    let gridCell = document.querySelector(`#L-${i}-${y}`)
-                    gridCell.classList.add('place-ship')
+                if (!shipCanBePlaced(x, y, direction, shipLength)) {
+                    let gridCell = document.querySelector(`#L-${x}-${y}`)
+                    gridCell.classList.add('err')
+                } else {
+                    for (let i = x; i < x + shipLength; ++i) {
+                        let gridCell = document.querySelector(`#L-${i}-${y}`)
+                        gridCell.classList.add('place-ship')
+                    }
                 }
             }
         }
@@ -165,9 +170,14 @@ const UI = (() => {
                 let gridCell = document.querySelector(`#L-${x}-${y}`)
                 gridCell.classList.add('err')
             } else {
-                for (let i = y; i < y + shipLength; ++i) {
-                    let gridCell = document.querySelector(`#L-${x}-${i}`)
-                    gridCell.classList.add('place-ship')
+                if (!shipCanBePlaced(x, y, direction, shipLength)) {
+                    let gridCell = document.querySelector(`#L-${x}-${y}`)
+                    gridCell.classList.add('err')
+                } else {
+                    for (let i = y; i < y + shipLength; ++i) {
+                        let gridCell = document.querySelector(`#L-${x}-${i}`)
+                        gridCell.classList.add('place-ship')
+                    }
                 }
             }
         }
@@ -363,16 +373,46 @@ const UI = (() => {
 
     const p1PlaceShip = (x, y) => {
         let direction = document.querySelector('.switch-axis').id
-        if (!game.isCarrierPlaced()) {
-            game.placeCarrier(x, y, direction)
-        } else if (!game.isBattleshipPlaced()) {
-            game.placeBattleship(x, y, direction)
-        } else if (!game.isCruiserPlaced()) {
-            game.placeCruiser(x, y, direction)
-        } else if (!game.isSubmarinePlaced()) {
-            game.placeSubmarine(x, y, direction)
-        } else if (!game.isDestroyerPlaced()) {
-            game.placeDestroyer(x, y, direction)
+        if (shipCanBePlaced(x, y, direction, 0)) {
+            if (!game.isCarrierPlaced()) {
+                game.placeCarrier(x, y, direction, 0)
+            } else if (!game.isBattleshipPlaced()) {
+                game.placeBattleship(x, y, direction, 0)
+            } else if (!game.isCruiserPlaced()) {
+                game.placeCruiser(x, y, direction, 0)
+            } else if (!game.isSubmarinePlaced()) {
+                game.placeSubmarine(x, y, direction, 0)
+            } else if (!game.isDestroyerPlaced()) {
+                game.placeDestroyer(x, y, direction, 0)
+            }
+        }
+    }
+
+    const shipCanBePlaced = (x, y, direction, shipLength) => {
+        for (let i = 0; i < 10; ++i) {
+            for (let j = 0; j < 10; ++j) {
+                let gridCell = document.querySelector(`#L-${j}-${i}`)
+                if (gridCell.classList.contains('err')) {
+                    return false
+                }
+            }
+        }
+        if (!shipLength !== 0) {
+            if (direction === 'x') {
+                for (let i = x; i < x + shipLength; ++i) {
+                    if (game.player1.board.getBoard()[i][y].hasShip) {
+                        return false
+                    }
+                }
+            }
+            if (direction === 'y') {
+                for (let i = y; i < y + shipLength; ++i) {
+                    if (game.player1.board.getBoard()[x][i].hasShip) {
+                        return false
+                    }
+                }
+            }
+            return true
         }
     }
 
