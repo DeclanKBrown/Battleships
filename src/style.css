@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    fill: white;
 }
 
 body {
@@ -98,6 +99,10 @@ h2 {
     opacity: 0.8;
 }
 
+.place-ship {
+    opacity: 0.8;
+}
+
 .hasShip {
     background-color: red;
 }
@@ -166,4 +171,60 @@ footer svg {
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
     gap: 0.1rem;
+}
+
+.place-ships {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    padding-top: 3rem;
+    color: white;
+    grid-template-columns: 1fr 5rem 20rem 1fr;
+}
+
+.switch-axis {
+    grid-column: 2 / 3;
+    height: 4.5rem;
+    background-color: #07102c;
+    border: 2px solid white;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+
+}
+
+.switch:hover {
+    opacity: 0.6;
+}
+
+.place-ships {
+    display: grid;
+    grid-auto-flow: column; 
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    padding-top: 3rem;
+    color: white;
+    gap: 2rem;
+    grid-template-columns: 1fr 5rem min-content 1fr;
+}
+
+.place-ships-inner {
+    display: grid;
+    grid-column: 3 / 4;
+    background-color: rgb(63, 63, 63);
+    border: 1px solid white;
+    border-radius: 2rem;
+    padding: 0.5rem 2rem;
+}
+
+.orders {
+    white-space: nowrap;
+    user-select: none;
+}
+
+.err {
+    background-color: red;
+    cursor:not-allowed;
 }

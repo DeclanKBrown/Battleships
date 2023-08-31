@@ -66,7 +66,7 @@ const Gameboard = () => {
     const reportSunk = () => {
         for (let i = 0; i < 10; ++i) {
             for (let j = 0; j < 10; ++j) {
-                if (board[i][j].isShot === false && board[i][j].hasShip !== false)
+                if (board[j][i].isShot === false && board[j][i].hasShip !== false)
                  return false
             }
         }

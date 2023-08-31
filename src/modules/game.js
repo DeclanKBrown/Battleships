@@ -46,9 +46,9 @@ const game = (() => {
         return false
     }
 
-    const placeCarrier = (x, y) => {
-        player1.board.placeShip(x, y, 'x', Ship(5, 'carrier'))
-        UI.placeShip(x, y, 'x', Ship(5, 'carrier'), 'L')
+    const placeCarrier = (x, y, direction) => {
+        player1.board.placeShip(x, y, direction, Ship(5, 'carrier'))
+        UI.placeShip(x, y, direction, Ship(5, 'carrier'), 'L')
         carrierPlaced = true
         UI.orders('player1 place battleship')
     }
@@ -57,9 +57,9 @@ const game = (() => {
         return carrierPlaced
     }
 
-    const placeBattleship = (x, y) => {
-        player1.board.placeShip(x, y, 'y', Ship(4, 'battleship'))
-        UI.placeShip(x, y, 'y', Ship(4, 'battleship'), 'L')
+    const placeBattleship = (x, y, direction) => {
+        player1.board.placeShip(x, y, direction, Ship(4, 'battleship'))
+        UI.placeShip(x, y, direction, Ship(4, 'battleship'), 'L')
         battleShipPlaced = true
         UI.orders('player1 place cruiser')
     }
@@ -68,9 +68,9 @@ const game = (() => {
         return battleShipPlaced
     }
 
-    const placeCruiser = (x, y) => {
-        player1.board.placeShip(x, y, 'x', Ship(3, 'cruiser'))
-        UI.placeShip(x, y, 'x', Ship(3, 'cruiser'), 'L')
+    const placeCruiser = (x, y, direction) => {
+        player1.board.placeShip(x, y, direction, Ship(3, 'cruiser'))
+        UI.placeShip(x, y, direction, Ship(3, 'cruiser'), 'L')
         cruiserPlaced = true
         UI.orders('player1 place submarine')
     }
@@ -79,9 +79,9 @@ const game = (() => {
         return cruiserPlaced
     }
 
-    const placeSubmarine = (x, y) => {
-        player1.board.placeShip(x, y, 'x', Ship(3, 'submarine'))
-        UI.placeShip(x, y, 'x', Ship(3, 'submarine'), 'L')
+    const placeSubmarine = (x, y, direction) => {
+        player1.board.placeShip(x, y, direction, Ship(3, 'submarine'))
+        UI.placeShip(x, y, direction, Ship(3, 'submarine'), 'L')
         submarinePlaced = true
         UI.orders('player1 place destroyer')
     }
@@ -90,9 +90,9 @@ const game = (() => {
         return submarinePlaced
     }
 
-    const placeDestroyer = async (x, y) => {
-        player1.board.placeShip(x, y, 'x', Ship(2, 'destroyer'))
-        UI.placeShip(x, y, 'x', Ship(2, 'destroyer'), 'L')
+    const placeDestroyer = async (x, y, direction) => {
+        player1.board.placeShip(x, y, direction, Ship(2, 'destroyer'))
+        UI.placeShip(x, y, direction, Ship(2, 'destroyer'), 'L')
         destroyerPlaced = true
         await UI.orders('ships placed')
         UI.loadMain()

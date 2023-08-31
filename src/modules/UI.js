@@ -71,8 +71,11 @@ const UI = (() => {
                 <img id='logo' src="./logo.jpeg">
             </div>
         </header>
-        <div class="message">
-            <div class="message-inner">
+        <div class="place-ships">
+            <div class="switch-axis" id="x">
+                <svg class="switch" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,9L17,5V8H10V10H17V13M7,11L3,15L7,19V16H14V14H7V11Z" /></svg>
+            </div>
+            <div class="place-ships-inner">
                 <h1 class="orders">Orders: Place Ships</h1>
             </div>
         </div>
@@ -101,25 +104,97 @@ const UI = (() => {
             for (let j = 0; j < 10; ++j) {
                 let gridCell = document.createElement('div')
                 gridCell.classList.add('grid-cell')
-                gridCell.id = `L-${i}-${j}`
+                gridCell.id = `L-${j}-${i}`
                 mainGrid.appendChild(gridCell)
             }
         }
     }
 
     const initMainGrid = () => {
+
+        document.querySelector('.switch-axis').addEventListener('click', () => {
+            switchAxis(); 
+            rotate()
+        })
+
         for (let i = 0; i < 10; ++i) {
             for (let j = 0; j < 10; ++j) {
-                let gridCell = document.querySelector(`#L-${i}-${j}`)
+                let gridCell = document.querySelector(`#L-${j}-${i}`)
 
                 let x = parseInt(gridCell.id.split('-')[1])
                 let y = parseInt(gridCell.id.split('-')[2])
+
+                gridCell.addEventListener('mouseover', () => {
+                    shipHover(x, y)
+                })
 
                 gridCell.addEventListener('click', () => {
                     p1PlaceShip(x, y)
                 })
             }
         }
+    }
+
+    const switchAxis = () => {
+        document.querySelector('.switch-axis').id === 'x' ? document.querySelector('.switch-axis').id = 'y' : document.querySelector('.switch-axis').id = 'x'
+    }
+
+    const rotate = () => {
+        const svg = document.querySelector('.switch');
+
+        svg.style.transform !== 'scaleX(-1)' ? svg.style.transform = 'scaleX(-1)' : svg.style.transform = 'scaleX(1)'
+    }
+
+    const shipHover = (x, y) => {
+        removeHL()
+        let direction = document.querySelector('.switch-axis').id
+        let shipLength = getLength()
+        if (direction === 'x') {
+            if (x + shipLength > 10) {
+                let gridCell = document.querySelector(`#L-${x}-${y}`)
+                gridCell.classList.add('err')
+            } else {
+                for (let i = x; i < x + shipLength; ++i) {
+                    let gridCell = document.querySelector(`#L-${i}-${y}`)
+                    gridCell.classList.add('place-ship')
+                }
+            }
+        }
+        if (direction === 'y') {
+            if (y + shipLength > 10) {
+                let gridCell = document.querySelector(`#L-${x}-${y}`)
+                gridCell.classList.add('err')
+            } else {
+                for (let i = y; i < y + shipLength; ++i) {
+                    let gridCell = document.querySelector(`#L-${x}-${i}`)
+                    gridCell.classList.add('place-ship')
+                }
+            }
+        }
+    }
+
+    const removeHL = () => {
+        for (let i = 0; i < 10; ++i) {
+            for (let j = 0; j < 10; ++j) {
+                let gridCell = document.querySelector(`#L-${j}-${i}`)
+                gridCell.classList.remove('place-ship')
+                gridCell.classList.remove('err')
+            }
+        }
+    }
+
+    const getLength = () => {
+        if (!game.isCarrierPlaced()) {
+            return 5
+        } else if (!game.isBattleshipPlaced()) {
+            return 4
+        } else if (!game.isCruiserPlaced()) {
+            return 3
+        } else if (!game.isSubmarinePlaced()) {
+            return 3
+        } else if (!game.isDestroyerPlaced()) {
+            return 2
+        } 
     }
 
     const mainScreen = () => {
@@ -172,7 +247,7 @@ const UI = (() => {
             for (let j = 0; j < 10; ++j) {
                 let gridCell = document.createElement('div')
                 gridCell.classList.add('grid-cell')
-                gridCell.id = `L-${i}-${j}`
+                gridCell.id = `L-${j}-${i}`
                 leftGrid.appendChild(gridCell)
             }
         }
@@ -182,7 +257,7 @@ const UI = (() => {
             for (let j = 0; j < 10; ++j) {
                 let gridCell = document.createElement('div')
                 gridCell.classList.add('grid-cell')
-                gridCell.id = `R-${i}-${j}`
+                gridCell.id = `R-${j}-${i}`
                 rightGrid.appendChild(gridCell)
             }
         }
@@ -191,7 +266,7 @@ const UI = (() => {
     const initGrid = () => {
         for (let i = 0; i < 10; ++i) {
             for (let j = 0; j < 10; ++j) {
-                let gridCell = document.querySelector(`#R-${i}-${j}`)
+                let gridCell = document.querySelector(`#R-${j}-${i}`)
 
                 let x = gridCell.id.split('-')[1]
                 let y = gridCell.id.split('-')[2]
@@ -214,8 +289,8 @@ const UI = (() => {
     const showShips = () => {
         for (let i = 0; i < 10; ++i) {
             for (let j = 0; j < 10; ++j) {
-                if (game.player1.board.getBoard()[i][j].hasShip) {
-                    let gridCell = document.querySelector(`#L-${i}-${j}`)
+                if (game.player1.board.getBoard()[j][i].hasShip) {
+                    let gridCell = document.querySelector(`#L-${j}-${i}`)
                     gridCell.classList.add('hasShip')
                 }
             }
@@ -225,12 +300,12 @@ const UI = (() => {
     const colorGrid = () => {
         for (let i = 0; i < 10; ++i) {
             for (let j = 0; j < 10; ++j) {
-                if (game.computer.board.getBoard()[i][j].isShot) {
-                    let gridCell = document.querySelector(`#R-${i}-${j}`)
+                if (game.computer.board.getBoard()[j][i].isShot) {
+                    let gridCell = document.querySelector(`#R-${j}-${i}`)
                     gridCell.classList.add('isShot')
                 }
-                if (game.player1.board.getBoard()[i][j].isShot) {
-                    let gridCell = document.querySelector(`#L-${i}-${j}`)
+                if (game.player1.board.getBoard()[j][i].isShot) {
+                    let gridCell = document.querySelector(`#L-${j}-${i}`)
                     gridCell.classList.add('isShot')
                 }
             }
@@ -287,16 +362,17 @@ const UI = (() => {
     }
 
     const p1PlaceShip = (x, y) => {
+        let direction = document.querySelector('.switch-axis').id
         if (!game.isCarrierPlaced()) {
-            game.placeCarrier(x, y)
+            game.placeCarrier(x, y, direction)
         } else if (!game.isBattleshipPlaced()) {
-            game.placeBattleship(x, y)
+            game.placeBattleship(x, y, direction)
         } else if (!game.isCruiserPlaced()) {
-            game.placeCruiser(x, y)
+            game.placeCruiser(x, y, direction)
         } else if (!game.isSubmarinePlaced()) {
-            game.placeSubmarine(x, y)
+            game.placeSubmarine(x, y, direction)
         } else if (!game.isDestroyerPlaced()) {
-            game.placeDestroyer(x, y)
+            game.placeDestroyer(x, y, direction)
         }
     }
 
