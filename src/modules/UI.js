@@ -281,14 +281,14 @@ const UI = (() => {
                 let x = gridCell.id.split('-')[1]
                 let y = gridCell.id.split('-')[2]
 
-                gridCell.addEventListener('click', () => {
+                gridCell.addEventListener('click', async () => {
                     if (!game.gameEnded() && game.canPlay()) {
                         if (game.player1.isLegal(game.computer.board, x, y)) {
-                            game.player1.attack(x, y, game.computer.board)
-                            colorGrid()
+                            await game.player1.attack(x, y, game.computer.board)
+                            // colorGrid()
                             game.flow(true)
                         } else {
-                            orders('player1 already shot')
+                            await orders('player1 already shot')
                         }
                     }
                 })
@@ -310,10 +310,15 @@ const UI = (() => {
     const colorGrid = () => {
         for (let i = 0; i < 10; ++i) {
             for (let j = 0; j < 10; ++j) {
-                if (game.computer.board.getBoard()[j][i].isShot) {
+                if (game.computer.board.getBoard()[j][i].isShot && !game.computer.board.getBoard()[j][i].hasShip) {
                     let gridCell = document.querySelector(`#R-${j}-${i}`)
                     gridCell.classList.add('isShot')
                 }
+                if (game.computer.board.getBoard()[j][i].isShot && game.computer.board.getBoard()[j][i].hasShip) {
+                    let gridCell = document.querySelector(`#R-${j}-${i}`)
+                    gridCell.classList.add('isShothasShip')
+                }
+
                 if (game.player1.board.getBoard()[j][i].isShot) {
                     let gridCell = document.querySelector(`#L-${j}-${i}`)
                     gridCell.classList.add('isShot')
@@ -325,12 +330,12 @@ const UI = (() => {
     const placeShip = (x, y, direction, ship, player) => {
         if (direction === 'x') {
             for (let i = x; i < x + ship.length; ++i) {
-                let gridCell = document.querySelector(`#${player}-${i}-${y}`)
+                let gridCell = document.querySelector(`#L-${i}-${y}`)
                 gridCell.classList.add('hasShip')
             }
         } else {
             for (let i = y; i < y + ship.length; ++i) {
-                let gridCell = document.querySelector(`#${player}-${x}-${i}`)
+                let gridCell = document.querySelector(`#L-${x}-${i}`)
                 gridCell.classList.add('hasShip')
             }
         }
@@ -347,7 +352,7 @@ const UI = (() => {
             document.querySelector('.orders').innerHTML = 'Your Turn'
         } else if (order === 'player1 hit') {
             document.querySelector('.orders').innerHTML = 'You Hit'
-        } else if (order === 'player1 misses') {
+        } else if (order === 'player1 missed') {
             document.querySelector('.orders').innerHTML = 'You Missed'
         } else if (order === 'player1 place carrier') {
             document.querySelector('.orders').innerHTML = 'Place Carrier'

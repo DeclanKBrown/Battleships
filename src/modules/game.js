@@ -103,20 +103,89 @@ const game = (() => {
     }
 
     const computerShips = () => {
-        computer.board.placeShip(0, 0, 'x', Ship(5, 'carrier'))
-        UI.placeShip(0, 0, 'x', Ship(5, 'carrier'), 'R')
+        //CARRIER
+        let x = Math.floor(Math.random() * 10)
+        let y = Math.floor(Math.random() * 10)
+        let direction = Math.floor(Math.random() * 2)
+        direction === 0 ? direction = 'x' : direction = 'y'
 
-        computer.board.placeShip(9, 5, 'y', Ship(4, 'battleship'))
-        UI.placeShip(9, 5, 'y', Ship(4, 'battleship'), 'R')
+        while (!isLegal(x, y, direction, 5)) {
+            x = Math.floor(Math.random() * 10)
+            y = Math.floor(Math.random() * 10)
+        }
+        computer.board.placeShip(x, y, direction, Ship(5, 'carrier'))
 
-        computer.board.placeShip(3, 6, 'x', Ship(3, 'cruiser'))
-        UI.placeShip(3, 6, 'x', Ship(3, 'cruiser'), 'R')
+        // BATTLESHIP
+        x = Math.floor(Math.random() * 10)
+        y = Math.floor(Math.random() * 10)
+        direction = Math.floor(Math.random() * 2)
+        direction === 0 ? direction = 'x' : direction = 'y'
 
-        computer.board.placeShip(1, 3, 'y', Ship(3, 'submarine'))
-        UI.placeShip(1, 3, 'y', Ship(3, 'submarine'), 'R')
+        while (!isLegal(x, y, direction, 5)) {
+            x = Math.floor(Math.random() * 10)
+            y = Math.floor(Math.random() * 10)
+        }
+        computer.board.placeShip(x, y, direction, Ship(4, 'battleship'))
 
-        computer.board.placeShip(8, 2, 'x', Ship(2, 'destroyer'))
-        UI.placeShip(8, 2, 'x', Ship(2, 'destroyer'), 'R')
+        //CRUISER
+        x = Math.floor(Math.random() * 10)
+        y = Math.floor(Math.random() * 10)
+        direction = Math.floor(Math.random() * 2)
+        direction === 0 ? direction = 'x' : direction = 'y'
+
+        while (!isLegal(x, y, direction, 5)) {
+            x = Math.floor(Math.random() * 10)
+            y = Math.floor(Math.random() * 10)
+        }
+        computer.board.placeShip(x, y, direction, Ship(3, 'cruiser'))
+
+        //SUBMARINE
+        x = Math.floor(Math.random() * 10)
+        y = Math.floor(Math.random() * 10)
+        direction = Math.floor(Math.random() * 2)
+        direction === 0 ? direction = 'x' : direction = 'y'
+
+        while (!isLegal(x, y, direction, 5)) {
+            x = Math.floor(Math.random() * 10)
+            y = Math.floor(Math.random() * 10)
+        }
+        computer.board.placeShip(x, y, direction, Ship(3, 'submarine'))
+
+        //DESTORYER
+        x = Math.floor(Math.random() * 10)
+        y = Math.floor(Math.random() * 10)
+        direction = Math.floor(Math.random() * 2)
+        direction === 0 ? direction = 'x' : direction = 'y'
+
+        while (!isLegal(x, y, direction, 5)) {
+            x = Math.floor(Math.random() * 10)
+            y = Math.floor(Math.random() * 10)
+        }
+        computer.board.placeShip(x, y, direction, Ship(2, 'destroyer'))
+    }
+
+    const isLegal = (x, y, direction, shipLength) => {
+        if (x + shipLength > 10) {
+            return false
+        }
+        if (y + shipLength > 10) {
+            return false
+        }
+        if (direction === 'x') {
+            for (let i = x; i < x + shipLength; ++i) {
+                if (computer.board.getBoard()[i][y].hasShip) {
+                    return false
+                }
+            }
+        }
+        if (direction === 'y') {
+            for (let i = y; i < y + shipLength; ++i) {
+                if (computer.board.getBoard()[x][i].hasShip) {
+                    return false
+                }
+            }
+        }
+        return true 
     }
 
     return { player1, computer, newGame, flow, gameEnded, canPlay, placeCarrier, isCarrierPlaced, placeBattleship, isBattleshipPlaced, placeCruiser, isCruiserPlaced, placeSubmarine, isSubmarinePlaced, placeDestroyer, isDestroyerPlaced }

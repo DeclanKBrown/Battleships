@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     fill: white;
+    user-select: none;
 }
 
 body {
@@ -109,6 +110,10 @@ h2 {
 
 .isShot {
     background-color: blue;
+}
+
+.isShothasShip {
+    background-color: red;
 }
 
 footer {
