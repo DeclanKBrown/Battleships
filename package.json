@@ -11,6 +11,7 @@
     "start": "webpack serve --open",
     "build": "webpack"
   },
+  "homepage": "https://declankbrown.github.io/Battleships/dist/index.html/",
   "keywords": [],
   "author": "",
   "license": "ISC",
